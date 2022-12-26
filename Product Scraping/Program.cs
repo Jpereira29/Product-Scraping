@@ -56,6 +56,6 @@ app.MapControllers();
 
 app.UseHangfireDashboard();
 Scraping scraping = new Scraping();
-RecurringJob.AddOrUpdate(() => scraping.GetScrapingResult(), Cron.Daily(00,02)); //hour UTC (+3 São Paulo)
+RecurringJob.AddOrUpdate(() => scraping.GetScrapingResult(), Cron.Daily(01,00)); //hour UTC (+3 São Paulo)
 
 app.Run();

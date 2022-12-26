@@ -4,7 +4,7 @@ using Product_Scraping.Repository;
 
 public class Scraping {
 
-    private static IUnitOfWork _ofWork;
+    private static IUnitOfWork? _ofWork;
 
     public Scraping(IUnitOfWork ofWork)
     {
@@ -60,7 +60,7 @@ public class Scraping {
 
                 var brands = document.DocumentNode.SelectSingleNode("//*[@id=\"field_brands_value\"]").InnerText;
 
-                var date = DateTime.Now;
+                var date = DateTimeOffset.Now;
 
                 Product product = new Product
                 {
@@ -74,18 +74,18 @@ public class Scraping {
                     Packaging = packaging,
                     Brands = brands,
                     Image_url = imageUrl,
-                    Imported_t = DateTime.Parse(date.Date.ToString("yyyy-MM-dd HH:mm:ssZ")),
+                    Imported_t = DateTime.Parse(date.ToString()),
                 };
 
                 _ofWork.ProductRepository.Add(product);
-
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
         }
-
+        //remove all data table for update
+        await _ofWork.ProductRepository.DeleteAllDataTable();
         await _ofWork.Commit();
     }
 }
